@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryColor">#69BE28</color>
+    <color name="primaryColor_80">#CC69BE28</color>
+    <color name="onPrimaryColor">#FFFFFF</color>
+    <color name="onSecondaryColor">#FFFFFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="white33">#33FFFFFF</color>
+    <color name="register_input_bg_color">#4F4F4F</color>
+    <color name="pureBlack">#000000</color>
+    <color name="grays_01">#333333</color>
+    <color name="grays_03">#979797</color>
+    <color name="primaryBlue">#0099ff</color>
+    <color name="primaryBlue40">#660099ff</color>
+    <color name="blue_33007A">#33007AFF</color>
+    <color name="blue_bdd">#BDDDFF</color>
+    <color name="blue_007a">#007AFF</color>
+    <color name="green_69BE28">#69BE28</color>
+
+</resources>
