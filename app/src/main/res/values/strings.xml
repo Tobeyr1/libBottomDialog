@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">libBottomDialog</string>
+    <string name="bottom_title">This is Title</string>
+</resources>
