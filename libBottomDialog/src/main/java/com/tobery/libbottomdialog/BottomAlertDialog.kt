@@ -32,9 +32,13 @@ class BottomAlertDialog : DialogFragment() {
     private var tvTitleColor: Int = 0
     private var tvConfirmColor: Int = 0
     private var confirmBg: Int = 0
+    private var cancelBg: Int = 0
     private var viewBgColor: Int = 0
     private var mWidth: Int = 0
     private var mHeight: Int = 0
+    private var isOpenMask: Boolean = false
+    private var maskColor: Int = 0
+    private var dimAmount: Float = 0.5f
     private var mAnimRes: Int = 0
     private var gravityStyle: Int = Gravity.BOTTOM
     private var mCancelBtnVisibility: Boolean = false
@@ -79,7 +83,11 @@ class BottomAlertDialog : DialogFragment() {
             tvCancelColor = getInt("tvCancelColor")
             tvConfirmColor = getInt("tvConfirmColor")
             confirmBg = getInt("confirmBg")
+            cancelBg = getInt("cancelBg")
             viewBgColor = getInt("viewBgColor")
+            maskColor = getInt("maskColor")
+            isOpenMask = getBoolean("isOpenMask")
+            dimAmount = getFloat("alpha")
             mTvOkmMg = getString("mTvOkmMg")
             mTvCancelMsg = getString("mTvCancelMsg")
             gravityStyle = getInt("gravityStyle")
@@ -120,8 +128,13 @@ class BottomAlertDialog : DialogFragment() {
             tvTitle.visibility = if (showTitle) View.VISIBLE else View.GONE
         }
         tvContent.visibility = if (showContent) View.VISIBLE else View.GONE
-        if (tvCancelColor > 0) tvCancelButton.background =
-            ResourcesCompat.getDrawable(resources, tvCancelColor, null)
+        if (tvCancelColor > 0) tvCancelButton.setTextColor(
+            ResourcesCompat.getColor(
+                resources,
+                tvCancelColor,
+                null
+            )
+        )
         if (tvTitleColor > 0) {
             tvTitle.setTextColor(ResourcesCompat.getColor(resources, tvTitleColor, null))
             tvContent.setTextColor(ResourcesCompat.getColor(resources, tvTitleColor, null))
@@ -133,6 +146,8 @@ class BottomAlertDialog : DialogFragment() {
                 null
             )
         )
+        if (cancelBg > 0) tvCancelButton.background =
+            ResourcesCompat.getDrawable(resources, cancelBg, null)
         if (confirmBg > 0) tvOkButton.background =
             ResourcesCompat.getDrawable(resources, confirmBg, null)
 
@@ -152,43 +167,51 @@ class BottomAlertDialog : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
-        val dialog = dialog ?: return
-        val window = dialog.window ?: return
-        val params = window.attributes
-        //set background transparent
-        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        //set anim
-        if (mAnimRes > 0) window.setWindowAnimations(mAnimRes)
-        //set dialog width and height
-        params.width = if (mWidth > 0) mWidth else WindowManager.LayoutParams.MATCH_PARENT
-        if (mHeight > 0) params.height = mHeight
-        //set transparent
-        params.dimAmount = 0.0f
-        params.gravity = gravityStyle
-        window.attributes = params
+        dialog?.window?.apply {
+            //set background transparent
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            if (maskColor > 0) setBackgroundDrawableResource(maskColor)
+            //set anim
+            if (mAnimRes > 0) setWindowAnimations(mAnimRes)
+            val params = attributes
+            params.width = if (mWidth > 0) mWidth else WindowManager.LayoutParams.MATCH_PARENT
+            if (mHeight > 0) params.height = mHeight
+            if (isOpenMask) params.height = WindowManager.LayoutParams.MATCH_PARENT
+            //set transparent
+            params.dimAmount = dimAmount
+            params.gravity = gravityStyle
+            attributes = params
+        }
     }
 
-    fun setFragmentManager(fragmentManager: FragmentManager): BottomAlertDialog {
+    fun setFragmentManager(fragmentManager: FragmentManager) = apply {
         mFragment = fragmentManager
-        return this
     }
 
-    fun setWindowSize(width: Int, height: Int): BottomAlertDialog {
+    fun openFullScreenMask(isOpen: Boolean = false, maskColor: Int, alpha: Float) =
+        apply { //是否开启全屏显示遮罩
+            isOpenMask = isOpen
+            this.maskColor = maskColor
+            dimAmount = alpha
+            arguments?.putInt("maskColor", maskColor)
+            arguments?.putBoolean("isOpenMask", isOpenMask)
+            arguments?.putFloat("alpha", dimAmount)
+        }
+
+
+    fun setWindowSize(width: Int, height: Int) = apply {
         setWidth(width)
         setHeight(height)
-        return this
     }
 
-    fun setWidth(width: Int): BottomAlertDialog {
+    fun setWidth(width: Int) = apply {
         mWidth = width
         arguments?.putInt("mWidth", mWidth)
-        return this
     }
 
-    fun setCancelColor(color: Int): BottomAlertDialog {
+    fun setCancelColor(color: Int) = apply {
         tvCancelColor = color
         arguments?.putInt("tvCancelColor", tvCancelColor)
-        return this
     }
 
     fun setTitleColor(color: Int) = apply {
@@ -201,21 +224,24 @@ class BottomAlertDialog : DialogFragment() {
         arguments?.putInt("confirmBg", confirmBg)
     }
 
+    fun setCancelBg(drawable: Int) = apply {
+        cancelBg = drawable
+        arguments?.putInt("cancelBg",cancelBg)
+    }
+
     fun setConfirmTextColor(color: Int) = apply {
         tvConfirmColor = color
         arguments?.putInt("tvConfirmColor", tvConfirmColor)
     }
 
-    fun setCancelBtnGone(): BottomAlertDialog {
+    fun setCancelBtnGone() = apply {
         mCancelBtnVisibility = true
         arguments?.putBoolean("mCancelBtnVisibility", true)
-        return this
     }
 
-    fun setHeight(height: Int): BottomAlertDialog {
+    fun setHeight(height: Int) = apply {
         mHeight = height
         arguments?.putInt("mHeight", mHeight)
-        return this
     }
 
     fun setBackGroundColor(color: Int) = apply {
@@ -223,58 +249,56 @@ class BottomAlertDialog : DialogFragment() {
         arguments?.putInt("viewBgColor", viewBgColor)
     }
 
-    fun setGravityStyle(gravity: Int): BottomAlertDialog {
+    fun setGravityStyle(gravity: Int) = apply {
         gravityStyle = gravity
         arguments?.putInt("gravityStyle", gravityStyle)
-        return this
     }
 
-    fun setAnimStyle(@StyleRes animStyle: Int): BottomAlertDialog {
+    fun setAnimStyle(@StyleRes animStyle: Int) = apply {
         mAnimRes = animStyle
         arguments?.putInt("mAnimRes", mAnimRes)
-        return this
     }
 
-    fun setTitle(title: String): BottomAlertDialog {
+    fun setTitle(title: String) = apply {
         mTitle = title
         arguments?.putString("mTitle", mTitle)
-        return this
     }
 
-    fun setContent(content: String): BottomAlertDialog {
+    fun setContent(content: String) = apply {
         mContent = content
         arguments?.putString("mContent", mContent)
-        return this
     }
 
-    fun setNegativeToDismiss(negativeToDismiss: Boolean): BottomAlertDialog {
+    fun setNegativeToDismiss(negativeToDismiss: Boolean) = apply {
         mNegativeToDismiss = negativeToDismiss
         arguments?.putBoolean("mNegativeToDismiss", mNegativeToDismiss)
-        return this
     }
 
-    fun setCanceledOnTouchOutside(canceledOnTouchOutside: Boolean): BottomAlertDialog {
+    fun setCanceledOnTouchOutside(canceledOnTouchOutside: Boolean) = apply {
         mCanceledOnTouchOutside = canceledOnTouchOutside
         arguments?.putBoolean("mCanceledOnTouchOutside", mCanceledOnTouchOutside)
-        return this
     }
 
     fun setNegativeButtonMethod(
         msg: String?,
+        tvColor: Int? = null,
         negativeButtonMethod: (Dialog?, View?) -> Unit
-    ): BottomAlertDialog {
+    ) = apply {
         mTvCancelMsg = msg
         msg?.let { arguments?.putString("mTvCancelMsg", it) }
         mNegativeButtonMethod = negativeButtonMethod
+        tvColor?.let {
+            tvCancelColor = it
+            arguments?.putInt("tvCancelColor", tvCancelColor)
+        }
         arguments?.putBoolean("mNegativeButtonMethodAdded", true)
-        return this
     }
 
     fun setPositiveButtonMethod(
         msg: String?,
         tvColor: Int? = null,
         positiveButtonMethod: (Dialog?, View?) -> Unit
-    ): BottomAlertDialog {
+    ) = apply {
         mTvOkmMg = msg
         mPositiveButtonMethod = positiveButtonMethod
         msg?.let { arguments?.putString("mTvOkmMg", it) }
@@ -283,7 +307,6 @@ class BottomAlertDialog : DialogFragment() {
             arguments?.putInt("tvConfirmColor", tvConfirmColor)
         }
         arguments?.putBoolean("mPositiveButtonMethodAdded", true)
-        return this
     }
 
     fun show() {
