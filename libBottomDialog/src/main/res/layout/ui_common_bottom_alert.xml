@@ -13,14 +13,16 @@
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_28"
         android:textSize="@dimen/sp_24"
         android:textAllCaps="true"
-        android:layout_marginStart="@dimen/dp_107"
-        android:layout_marginEnd="@dimen/dp_107"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_16"
         android:textColor="@color/onSecondaryColor"
-        android:ellipsize="none"
         android:layout_marginTop="@dimen/dp_25"
         app:layout_constraintTop_toTopOf="@id/view_bg"
         app:layout_constraintEnd_toEndOf="@id/view_bg"
@@ -29,15 +31,17 @@
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dp_0"
         android:textColor="@color/onSecondaryColor"
         android:textSize="@dimen/sp_16"
         android:ellipsize="none"
         android:layout_marginStart="@dimen/dp_32"
         android:layout_marginEnd="@dimen/dp_32"
+        android:layout_marginBottom="@dimen/dp_12"
         app:layout_constraintEnd_toEndOf="@id/view_bg"
         app:layout_constraintStart_toStartOf="@id/view_bg"
-        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        app:layout_constraintBottom_toTopOf="@id/tv_bt_ok"/>
 
     <TextView
         android:id="@+id/tv_bt_cancel"
