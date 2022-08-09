@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
                 //.setConfirmTextColor()设置确认文本颜色
                 //.setConfirmBg()设置确认按钮背景色
                 .setCanceledOnTouchOutside(false)
-                .openFullScreenMask(false,R.color.purple_200,0.1f) //是否开启全屏以及弹框底部虚拟背景色和透明度
+                .openFullScreenMask(false,R.color.purple_200,0.1f) //是否开启全屏以及弹框透明度
                 //.setTitleColor()设置标题、内容文本颜色
                 .setNegativeButtonMethod("cancel", R.color.purple_200){dialog, _ ->
                     dialog?.dismiss()
