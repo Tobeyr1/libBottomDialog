@@ -1,5 +1,13 @@
-# libBottomDialog [![](https://jitpack.io/v/Tobeyr1/libBottomDialog.svg)](https://jitpack.io/#Tobeyr1/libBottomDialog
+# libBottomDialog [![](https://jitpack.io/v/Tobeyr1/libBottomDialog.svg)](https://jitpack.io/#Tobeyr1/libBottomDialog)
 一个仿IOS的底部选择器及底部弹出框警告框
+---------------------------
+# renderings
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/b46a83d7086240faacaafd5b1efdb88d.gif#pic_center =350x680)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/75cc779db49247909f0719861946528f.jpeg#pic_center =350x680)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/a2cb96d8b9c9487f8d2e5b0df90c1247.jpeg#pic_center =350x680)
 ---------------------------
 # Quick Setup
 **Add it in your root build.gradle at the end of repositories:**
