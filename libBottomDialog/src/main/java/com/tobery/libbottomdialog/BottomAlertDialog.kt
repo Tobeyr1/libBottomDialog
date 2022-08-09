@@ -188,7 +188,7 @@ class BottomAlertDialog : DialogFragment() {
         mFragment = fragmentManager
     }
 
-    fun openFullScreenMask(isOpen: Boolean = false, maskColor: Int, alpha: Float) =
+    fun openFullScreenMask(isOpen: Boolean = false, maskColor: Int = 0, alpha: Float) =
         apply { //是否开启全屏显示遮罩
             isOpenMask = isOpen
             this.maskColor = maskColor
