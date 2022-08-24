@@ -118,6 +118,7 @@ class BottomAlertDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         if (viewBgColor > 0) viewBg.background =
             ResourcesCompat.getDrawable(resources, viewBgColor, null) //修改背景
+        if (mHeight > 0) viewBg.layoutParams.height = mHeight
         val showTitle = !TextUtils.isEmpty(mTitle)
         val showContent = !TextUtils.isEmpty(mContent)
         if (showTitle) {
